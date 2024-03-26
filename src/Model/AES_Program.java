@@ -37,9 +37,9 @@ public class AES_Program {
 	}
 
 	public static int[] KeyExpansion(int[] key) {
-		int Nk = key.length / 4; // Số lượng từ trong key
-		Nr = Nk + 6; // Số lượng vòng lặp rounds
-		int[] expandedKey = new int[(Nr + 1) * 4]; // Mảng lưu trữ các từ mở rộng
+		int Nk = key.length / 4;
+		Nr = Nk + 6;
+		int[] expandedKey = new int[(Nr + 1) * 4];
 		w = new int[(Nr + 1) * Nb];
 		int temp, i = 0;
 		while (i < Nk) {
@@ -52,7 +52,7 @@ public class AES_Program {
 		}
 
 		i = Nk;
-		while (i < Nb * (Nr + 1)) { // 128bit: Nb = 4, Nr = 10
+		while (i < Nb * (Nr + 1)) {
 			temp = w[i - 1];
 			if (i % Nk == 0) {
 				temp = SubWord(RotWord(temp)) ^ (SBoxs.rCon[i / Nk] << 24);
@@ -117,13 +117,13 @@ public class AES_Program {
 
 	public int[][] invShiftRows(int[][] state) {
 		int temp1, temp2, temp3, i;
-		// row 1;
+
 		temp1 = state[1][Nb - 1];
 		for (i = Nb - 1; i > 0; i--) {
 			state[1][i] = state[1][(i - 1) % Nb];
 		}
 		state[1][0] = temp1;
-		// row 2
+
 		temp1 = state[2][Nb - 1];
 		temp2 = state[2][Nb - 2];
 		for (i = Nb - 1; i > 1; i--) {
@@ -131,7 +131,7 @@ public class AES_Program {
 		}
 		state[2][1] = temp1;
 		state[2][0] = temp2;
-		// row 3
+
 		temp1 = state[3][Nb - 3];
 		temp2 = state[3][Nb - 2];
 		temp3 = state[3][Nb - 1];
@@ -148,7 +148,7 @@ public class AES_Program {
 		return ((b << 1) ^ ((b & 0x80) != 0 ? 0x1b : 0x00)) & 0xFF;
 	}
 
-	public int mult(int a, int b) {
+	public int mul(int a, int b) {
 		int sum = 0;
 		while (a != 0) {
 			if ((a & 1) != 0) {
@@ -163,10 +163,10 @@ public class AES_Program {
 	public int[][] MixColumns(int[][] state) {
 		int temp0, temp1, temp2, temp3;
 		for (int c = 0; c < Nb; c++) {
-			temp0 = mult(0x02, state[0][c]) ^ mult(0x03, state[1][c]) ^ state[2][c] ^ state[3][c];
-			temp1 = state[0][c] ^ mult(0x02, state[1][c]) ^ mult(0x03, state[2][c]) ^ state[3][c];
-			temp2 = state[0][c] ^ state[1][c] ^ mult(0x02, state[2][c]) ^ mult(0x03, state[3][c]);
-			temp3 = mult(0x03, state[0][c]) ^ state[1][c] ^ state[2][c] ^ mult(0x02, state[3][c]);
+			temp0 = mul(0x02, state[0][c]) ^ mul(0x03, state[1][c]) ^ state[2][c] ^ state[3][c];
+			temp1 = state[0][c] ^ mul(0x02, state[1][c]) ^ mul(0x03, state[2][c]) ^ state[3][c];
+			temp2 = state[0][c] ^ state[1][c] ^ mul(0x02, state[2][c]) ^ mul(0x03, state[3][c]);
+			temp3 = mul(0x03, state[0][c]) ^ state[1][c] ^ state[2][c] ^ mul(0x02, state[3][c]);
 			state[0][c] = temp0;
 			state[1][c] = temp1;
 			state[2][c] = temp2;
@@ -178,14 +178,10 @@ public class AES_Program {
 	public int[][] invMixColumnas(int[][] state) {
 		int temp0, temp1, temp2, temp3;
 		for (int c = 0; c < Nb; c++) {
-			temp0 = mult(0x0e, state[0][c]) ^ mult(0x0b, state[1][c]) ^ mult(0x0d, state[2][c])
-					^ mult(0x09, state[3][c]);
-			temp1 = mult(0x09, state[0][c]) ^ mult(0x0e, state[1][c]) ^ mult(0x0b, state[2][c])
-					^ mult(0x0d, state[3][c]);
-			temp2 = mult(0x0d, state[0][c]) ^ mult(0x09, state[1][c]) ^ mult(0x0e, state[2][c])
-					^ mult(0x0b, state[3][c]);
-			temp3 = mult(0x0b, state[0][c]) ^ mult(0x0d, state[1][c]) ^ mult(0x09, state[2][c])
-					^ mult(0x0e, state[3][c]);
+			temp0 = mul(0x0e, state[0][c]) ^ mul(0x0b, state[1][c]) ^ mul(0x0d, state[2][c]) ^ mul(0x09, state[3][c]);
+			temp1 = mul(0x09, state[0][c]) ^ mul(0x0e, state[1][c]) ^ mul(0x0b, state[2][c]) ^ mul(0x0d, state[3][c]);
+			temp2 = mul(0x0d, state[0][c]) ^ mul(0x09, state[1][c]) ^ mul(0x0e, state[2][c]) ^ mul(0x0b, state[3][c]);
+			temp3 = mul(0x0b, state[0][c]) ^ mul(0x0d, state[1][c]) ^ mul(0x09, state[2][c]) ^ mul(0x0e, state[3][c]);
 			state[0][c] = temp0;
 			state[1][c] = temp1;
 			state[2][c] = temp2;
