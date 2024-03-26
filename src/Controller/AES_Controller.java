@@ -51,11 +51,8 @@ public class AES_Controller implements ActionListener {
 				if (b.isSelected()) {
 					Instant time1 = Instant.now();
 
-//					String plainText = this.aes.plainTextAES;
 					String plainText = this.viewAES.jTextField_BanRoEn.getText();
 					this.viewAES.jTextField_BanRoEn.setText(plainText);
-//					byte[] plainByte = plainText.getBytes(StandardCharsets.UTF_8);
-//					int[][] plainInput = this.initEmptyEncrypt(plainByte);
 
 					if (option.equals("128 bit")) {
 						for (int i = 0; i < plainText.length(); i += 16) {
@@ -72,8 +69,7 @@ public class AES_Controller implements ActionListener {
 							}
 							result += encryptedHex.toString();
 						}
-//						aes.encrypt128bit(plainInput, this.encryptData);
-//						this.setEncryptString(this.convertIntToString(this.encryptData));
+
 						this.setEncryptString(result);
 						this.viewAES.jTextField_BanMaEn.setText(this.getEncryptString());
 					} else if (option.equals("192 bit")) {
@@ -158,10 +154,7 @@ public class AES_Controller implements ActionListener {
 							decryptString += decryptedString.toString();
 						}
 						this.viewAES.jTextField_BanRoDe.setText(decryptString.trim());
-//						int[][] encryptedData = this.encryptData;
-//						aes.decrypt128bit(encryptedData, this.decryptedData);
-//						String decryptedString = this.convertDecryptedDataToString(this.decryptedData);
-//						this.viewAES.jTextField_BanRoDe.setText(decryptedString);
+
 					} else if (option.equals("192 bit")) {
 						for (int i = 0; i < encryptedString.length(); i += 32) {
 							String partDecrypt = encryptedString.substring(i,
@@ -182,11 +175,9 @@ public class AES_Controller implements ActionListener {
 								}
 							}
 
-							// Giải mã từng phần và hiển thị kết quả
 							int[][] decryptedData = new int[4][4];
 							aes.decrypt192bit(intData, decryptedData);
 
-							// Chuyển ma trận intData thành chuỗi và hiển thị kết quả
 							String decryptedString = convertDecryptedDataToString(decryptedData);
 
 							decryptString += decryptedString.toString();
@@ -197,13 +188,12 @@ public class AES_Controller implements ActionListener {
 							String partDecrypt = encryptedString.substring(i,
 									Math.min(i + 32, encryptedString.length()));
 
-							// Chuyển đổi chuỗi hex đã chia thành mảng các byte
 							byte[] byteData = new byte[16];
 							for (int j = 0; j < 16; j++) {
 								byteData[j] = (byte) ((Character.digit(partDecrypt.charAt(j * 2), 16) << 4)
 										+ Character.digit(partDecrypt.charAt(j * 2 + 1), 16));
 							}
-							// Chuyển mảng byte thành ma trận intData
+
 							int[][] intData = new int[4][4];
 							int index = 0;
 							for (int j = 0; j < 4; j++) {
@@ -212,11 +202,9 @@ public class AES_Controller implements ActionListener {
 								}
 							}
 
-							// Giải mã từng phần và hiển thị kết quả
 							int[][] decryptedData = new int[4][4];
 							aes.decrypt256bit(intData, decryptedData);
 
-							// Chuyển ma trận intData thành chuỗi và hiển thị kết quả
 							String decryptedString = convertDecryptedDataToString(decryptedData);
 
 							decryptString += decryptedString.toString();
