@@ -51,7 +51,8 @@ public class AES_Controller implements ActionListener {
 				if (b.isSelected()) {
 					Instant time1 = Instant.now();
 
-					String plainText = this.aes.plainTextAES;
+//					String plainText = this.aes.plainTextAES;
+					String plainText = this.viewAES.jTextField_BanRoEn.getText();
 					this.viewAES.jTextField_BanRoEn.setText(plainText);
 //					byte[] plainByte = plainText.getBytes(StandardCharsets.UTF_8);
 //					int[][] plainInput = this.initEmptyEncrypt(plainByte);

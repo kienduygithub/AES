@@ -13,8 +13,6 @@ public class AES_Program {
 			0x7f, 0x3c, 0xa5, 0x76, 0x55, 0x45, 0x88, 0x32, 0x12, 0x7f, 0x42, 0x54, 0x67, 0x23, 0x11, 0x34, 0x78, 0x90,
 			0xab };
 
-	public static String plainTextAES = "Hello, Everyone! I'm Duy!";
-
 	// ================== CÁC HÀM MỞ RỘNG KHÓA KEY ================== \\
 	public static int RotWord(int word) {
 		return (word << 8) | ((word & 0xFF000000) >>> 24);
